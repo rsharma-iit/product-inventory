@@ -8,8 +8,8 @@ const category_controller = require("../controllers/categoryController");
 
 /// product ROUTES ///
 
-// GET inventory home page.
-router.get("/", product_controller.index);
+//GET inventory home page.
+router.get("/", product_controller.product_list);
 
 // GET request for creating a product. NOTE This must come before routes that display product (uses id).
 router.get("/product/create", product_controller.product_create_get);
@@ -31,7 +31,7 @@ router.post("/product/:id/update", product_controller.product_update_post);
 
 
 // GET request for list of all product items.
-router.get("/products", product_controller.product_list);
+//router.get("/products", product_controller.product_list);
 
 
 /// category ROUTES ///

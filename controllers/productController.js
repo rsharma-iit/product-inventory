@@ -19,7 +19,7 @@ exports.index = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render("index", {
-    title: "Warehouse Inventory Home",
+    title: "Warehouse Inventory",
     product_count: numProducts,
     category_count: numCategories,
     supplier_count: numSuppliers,
@@ -30,15 +30,23 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 
 
+exports.product_list = asyncHandler(async (req, res, next) => {
+  const allproducts = await product.find({},{'_id': 0})
+    .sort({ name: 1 })
+    .populate({'_id': 0},'supplier', 'name')
+    .populate('category','name')
+    .exec();
 
+  res.render('inventory', { title: "Product List", product_list: allproducts });
+});
 
 
 
 
 // Display list of all product.
-exports.product_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: product list");
-});
+//exports.product_list = asyncHandler(async (req, res, next) => {
+//  res.send("NOT IMPLEMENTED: product list");
+//});
 
 
 // Display product create form on GET.

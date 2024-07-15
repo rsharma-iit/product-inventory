@@ -1,0 +1,9 @@
+/
+/inventory
+/inventory/products
+/inventory/categorys
+/inventory/suppliers
+/inventory/product/<object>/create
+/inventory/category/<object>/update
+/inventory/supplier/<object>/delete
+
