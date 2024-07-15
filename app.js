@@ -1,5 +1,18 @@
 var createError = require('http-errors');
 var express = require('express');
+
+
+// Set up mongoose connection
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+const mongoDB = "mongodb+srv://rsharma17:OrcBRAVKFh3OP9vS@cluster0.yda4vzi.mongodb.net/product-inventory-db?retryWrites=true&w=majority&appName=Cluster0";
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
+
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
