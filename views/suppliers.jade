@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  if supplier_list.length
+    ul
+      each supplier in supplier_list
+        li = !{supplier}
+  else
+    p There are no suppliers.

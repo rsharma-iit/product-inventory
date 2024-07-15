@@ -12,7 +12,7 @@ router.get("/", product_controller.index);
 
 // GET home page.
 //router.get('/', function (req, res, next) {
-//  res.render('index',{title:'Warehouse Inventory'});
+//  res.render('test',{title:'Warehouse Inventory'});
 //});
 
 

@@ -36,6 +36,9 @@ router.post("/product/:id/update", product_controller.product_update_post);
 
 /// category ROUTES ///
 
+// GET request for list of all category.
+router.get("/categorys", category_controller.category_list);
+
 // GET request for creating a category. NOTE This must come before route that displays category (uses id).
 router.get("/category/create", category_controller.category_create_get);
 
@@ -55,8 +58,7 @@ router.get("/category/:id/update", category_controller.category_update_get);
 router.post("/category/:id/update", category_controller.category_update_post);
 
 
-// GET request for list of all category.
-router.get("/categorys", category_controller.category_list);
+
 
 
 //Supplier Routes

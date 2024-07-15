@@ -3,7 +3,10 @@ const asyncHandler = require("express-async-handler");
 
 // Display list of all Category.
 exports.category_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category list");
+  const allcategorys = await category.find({},{'_id': 0})
+    //.sort({ name: 1 })
+    .exec();
+  res.render('categorys', { title: "Category List", category_list: allcategorys });
 });
 
 

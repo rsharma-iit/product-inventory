@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  if category_list.length
+    ul
+      each category in category_list
+        li = !{category}
+  else
+    p There are no categories.
