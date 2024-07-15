@@ -10,15 +10,60 @@ exports.category_list = asyncHandler(async (req, res, next) => {
 });
 
 
-// Display Category create form on GET.
+
+
+// Display supplier create form on GET.
 exports.category_create_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category create GET");
+  res.render("category_form", { title: "Create Category" });
 });
 
 // Handle Category create on POST.
-exports.category_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category create POST");
-});
+
+exports.category_create_post = [
+  // Validate and sanitize the name field.
+  body("name", "Category name should be 3-100 characters")
+    .trim()
+    .isLength({ min: 3},{ max: 100}),
+  body("description", "Category description  should be 3-100 characters")
+    .trim()
+    .isLength({ min: 3},{ max: 100}),
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a category object with escaped and trimmed data.
+    const category1 = new category({ 
+      name: req.body.name, 
+      description: req.body.description
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("category_form", {
+        title: "Create Category",
+        category: category1,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+
+        await category1.save();
+        // New category saved. 
+        notifier.notify({
+          title: 'Category Added!',
+          message: 'good stuff!',
+//          icon: path.join(__dirname, 'icon.jpg'),
+//          sound: true,
+          wait: true
+        })}
+    }
+  ),
+];
+
+
+
+
 
 // Display Category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
