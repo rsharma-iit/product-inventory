@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  h1 #{title}
+
+  form(method='POST')
+    div.form-group
+      label(for='name') Supplier Name:
+      input#name.form-control(type='text', placeholder='Microsoft' name='name' required value=(undefined===supplier ? '' : supplier.name) )
+
+      label(for='phone') Phone:
+      input#phone.form-control(type='text', placeholder='0000000000' name='phone' required value=(undefined===supplier ? '' : supplier.phone) )
+
+      label(for='address') Address:
+      input#address.form-control(type='text', placeholder='1 Microsoft Way' name='address' required value=(undefined===supplier ? '' : supplier.address) )
+
+
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
