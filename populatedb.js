@@ -53,15 +53,16 @@ async function categoryCreate(index, name, description) {
 }
 
 async function productCreate(index, name, category, sku, description, supplier, price, quantity) {
-  const product = {
+  const productdetail = {
     name: name,
     category: category,
     sku: sku,
-    description: bookdesc,
+    description: description,
     supplier: supplier,
     price: price,
     quantity: quantity
   };
+  const product= new Product(productdetail)
   await product.save();
   products[index] = product;
   console.log(`Added product: ${name}`);
