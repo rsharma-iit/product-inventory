@@ -4,9 +4,9 @@ const asyncHandler = require("express-async-handler");
 // Display list of all supplier.
 exports.supplier_list = asyncHandler(async (req, res, next) => {
   const allsuppliers = await supplier.find({},{'_id': 0})
-    //.sort({ name: 1 })
+    .sort({ name: 1 })
     .exec();
-  res.render('suppliers', { title: "Supplier List", category_list: allsuppliers });
+  res.render('suppliers', { title: "Supplier List", supplier_list: allsuppliers });
 });
 
 
