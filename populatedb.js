@@ -11,9 +11,9 @@ const Product = require("./models/product");
 const Category = require("./models/category");
 const Supplier = require("./models/supplier");
 
-const supplier = [];
-const category = [];
-const product = [];
+const suppliers = [];
+const categorys = [];
+const products = [];
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -37,34 +37,34 @@ async function main() {
 // supplier[0] will always be the Microsoft, regardless of the order
 // in which the elements of promise.all's argument complete.
 async function supplierCreate(index, name, phone, address) {
-  const supplier = { name: name, phone: phone, address: address };
-  const booksupplier= new Supplier(supplier)
-  await booksupplier.save();
-  suppliers[index] = booksupplier;
+  const supplierdetail = { name: name, phone: phone, address: address };
+  const supplier= new Supplier(supplierdetail)
+  await supplier.save();
+  suppliers[index] = supplier;
   console.log(`Added supplier: ${name}`);
 }
 
 async function categoryCreate(index, name, description) {
-  const category = { name: name,description: description };
-  const bookcategory= new Category(category)
-  await bookcategory.save();
-  categorys[index] = bookcategory;
+  const categorydetail = { name: name,description: description };
+  const category= new Category(categorydetail)
+  await category.save();
+  categorys[index] = category;
   console.log(`Added category: ${name}`);
 }
 
 async function productCreate(index, name, category, sku, description, supplier, price, quantity) {
   const product = {
     name: name,
-    category: bookcategory,
+    category: category,
     sku: sku,
     description: bookdesc,
-    supplier: booksupplier,
-    price: price
+    supplier: supplier,
+    price: price,
     quantity: quantity
   };
   await product.save();
   products[index] = product;
-  console.log(`Added product: ${title}`);
+  console.log(`Added product: ${name}`);
 }
 
 
@@ -98,7 +98,7 @@ async function createProduct() {
       categorys[0],
       "123ADGVDA",
       "test123",
-      suppliers[1],
+      [suppliers[1]],
       100,
       50
     ),
@@ -107,7 +107,7 @@ async function createProduct() {
       categorys[0],
       "12454DGVDA",
       "test123",
-      suppliers[1],
+      [suppliers[1]],
       100,
       50
     ),
@@ -116,7 +116,7 @@ async function createProduct() {
       categorys[1],
       "1237687DGVDA",
       "test123",
-      suppliers[1],
+      [suppliers[1]],
       10,
       50
     ),
@@ -125,7 +125,7 @@ async function createProduct() {
       categorys[2],
       "123A234GVDA",
       "test123",
-      suppliers[2],
+      [suppliers[2]],
       300,
       50
     ),
@@ -134,7 +134,7 @@ async function createProduct() {
       categorys[5],
       "123A123GVDA",
       "test123",
-      suppliers[0],
+      [suppliers[0]],
       100,
       30
     ),
@@ -143,15 +143,16 @@ async function createProduct() {
       categorys[3],
       "123ADG879DA",
       "test123",
-      suppliers[2],
+      [suppliers[2]],
       100,
       10
     ),
     productCreate(6,
+      "Surge Low",
       categorys[4],
       "123ADG345DA",
       "test123",
-      suppliers[1],
+      [suppliers[1]],
       100,
       40
     ),
