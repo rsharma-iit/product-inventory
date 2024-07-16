@@ -1,3 +1,4 @@
+const notifier = require('node-notifier');
 const product = require("../models/product");
 const category = require("../models/category");
 const supplier = require("../models/supplier");
@@ -28,9 +29,6 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
-
-
-
 exports.product_list = asyncHandler(async (req, res, next) => {
   const allproducts = await product.find({},{'_id': 0})
     .sort({ name: 1 })
@@ -41,23 +39,103 @@ exports.product_list = asyncHandler(async (req, res, next) => {
   res.render('inventory', { title: "Product List", product_list: allproducts });
 });
 
-
-
-// Display list of all product.
-//exports.product_list = asyncHandler(async (req, res, next) => {
-//  res.send("NOT IMPLEMENTED: product list");
-//});
-
-
-// Display product create form on GET.
+// Handle supplier create on GET.
 exports.product_create_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: product create GET");
+  // Get all suppliers and categories, which we can use for adding to our product.
+  const [allSuppliers, allCategorys] = await Promise.all([
+    supplier.find().sort({ name: 1 }).exec(),
+    category.find().sort({ name: 1 }).exec(),
+  ]);
+
+  res.render("product_form", {
+    title: "Create Product",
+    suppliers: allSuppliers,
+    categorys: allCategorys,
+  });
 });
 
-// Handle product create on POST.
-exports.product_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: product create POST");
-});
+// Handle supplier create on POST.
+
+exports.product_create_post = [
+
+  // Validate and sanitize the name field.
+  body("name", "Product name should be 3-100 characters")
+    .trim(),
+    
+  body("category","Category must not be empty.")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
+  body("sku", "SKU should be 3-100 characters")
+    .trim()
+    .isLength({ min: 8},{ max: 12}),
+  body("description")
+    .trim()
+    .isLength({ min: 8},{ max: 12}),
+    body("supplier","Supplier must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  body("price")
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .isFloat()
+    .withMessage("Price must be numbers"),
+  body("quantity")
+    .trim()
+    .isLength({min: 0})
+    .escape()
+    .isNumeric()
+    .withMessage("Price must be numbers"),
+
+
+    // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a product object with escaped and trimmed data.
+    const product1 = new product({ 
+      name: req.body.name, 
+      category: req.body.category,
+      sku: req.body.sku,
+      description: req.body.description,
+      supplier: req.body.supplier,
+      price: req.body.price, 
+      quantity: req.body.quantity
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+
+      const [allSuppliers, allCategorys] = await Promise.all([
+        supplier.find().sort({ name: 1 }).exec(),
+        category.find().sort({ name: 1 }).exec(),
+      ]);
+
+      res.render("product_form", {
+        title: "Create Product",
+        suppliers: allSuppliers,
+        catgorys: allCategorys,
+        product: product1,
+        errors: errors.array(),
+      });
+      
+    } else {
+
+        await product1.save();
+        // New product saved. 
+        notifier.notify({
+          title: 'Product Added!',
+          message: 'good stuff!',
+          wait: true
+        })}
+    }
+  ),
+];
+
 
 // Display product delete form on GET.
 exports.product_delete_get = asyncHandler(async (req, res, next) => {

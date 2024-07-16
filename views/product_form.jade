@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    div.form-group
+      label(for='name') Name:
+      input#name.form-control(type='text', placeholder='Name of product' name='name' required value=(undefined===product ? '' : product.name) )
+    div.form-group
+      label(for='category') Supplier:
+      select#category.form-control(name='category' required)
+        option(value='') --Please select a category--
+        for category in categorys
+          if product
+            if category._id.toString()===product.category._id.toString()
+              option(value=category._id selected) #{category.name}
+            else
+              option(value=category._id) #{category.name}
+          else
+            option(value=category._id) #{category.name}
+    div.form-group
+      label(for='sku') SKU:
+      textarea#sku.form-control(placeholder='SKU' name='sku' required)= undefined===product ? '' : product.sku
+    div.form-group
+      label(for='description') Description:
+      input#description.form-control(type='text', placeholder='Describe' name='description' value=(undefined===product ? '' : product.description) required)
+
+    div.form-group
+      label(for='supplier') Supplier:
+      select#supplier.form-control(name='supplier' required)
+        option(value='') --Please select a supplier--
+        for supplier in suppliers
+          if product
+            if supplier._id.toString()===product.supplier._id.toString()
+              option(value=supplier._id selected) #{supplier.name}
+            else
+              option(value=supplier._id) #{supplier.name}
+          else
+            option(value=supplier._id) #{supplier.name}
+
+
+    div.form-group
+      label(for='price') Price:
+      input#isbn.form-control(placeholder='Price' name='price' value=(undefined===product ? '' : product.price) required)
+
+    div.form-group
+      label(for='quantity') Quantity:
+      input#quantity.form-control(placeholder='Quantity' name='quantity' value=(undefined===product ? '' : product.quantity) required)
+
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
