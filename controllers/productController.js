@@ -147,7 +147,7 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: product delete POST");
 });
 
-// Display product update form on GET.
+/*// Display product update form on GET.
 exports.product_update_get = asyncHandler(async (req, res, next) => {
   // Get product, suppliers and categorys for form.
   const [product1, allSupplier, allCategorys] = await Promise.all([
@@ -250,3 +250,4 @@ exports.product_update_post = [
     }
   }),
 ];
+*/
