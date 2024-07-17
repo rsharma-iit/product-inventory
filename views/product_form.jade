@@ -8,7 +8,7 @@ block content
       label(for='name') Name:
       input#name.form-control(type='text', placeholder='Name of product' name='name' required value=(undefined===product ? '' : product.name) )
     div.form-group
-      label(for='category') Supplier:
+      label(for='category') Category:
       select#category.form-control(name='category' required)
         option(value='') --Please select a category--
         for category in categorys

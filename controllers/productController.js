@@ -118,7 +118,7 @@ exports.product_create_post = [
       res.render("product_form", {
         title: "Create Product",
         suppliers: allSuppliers,
-        catgorys: allCategorys,
+        categorys: allCategorys,
         product: product1,
         errors: errors.array(),
       });
