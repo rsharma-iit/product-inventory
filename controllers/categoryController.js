@@ -66,15 +66,46 @@ exports.category_create_post = [
 
 
 
+// Display Supplier delete form on GET.
+exports.supplier_delete_get = asyncHandler(async (req, res, next) => {
+  // Get details of supplier and all their products (in parallel)
+  const [supplier1, allProductsbySupplier] = await Promise.all([
+    supplier.findById(req.params.id).exec(),
+    product.find({ supplier1: req.params.id }, "product description").exec(),
+  ]);
 
-// Display Category delete form on GET.
-exports.category_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete GET");
+  if (supplier1 === null) {
+    // No results.
+    res.redirect("/inventory/suupliers");
+  }
+
+  res.render("supplier_delete", {
+    title: "Delete Supplier",
+    supplier: supplier1,
+    productSupplliers: allProductsbySupplier,
+  });
 });
 
-// Handle Category delete on POST.
-exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete POST");
+// Handle Supplier delete on POST.
+exports.supplier_delete_post = asyncHandler(async (req, res, next) => {
+ // Get details of supplier and all their products (in parallel)
+ const [supplier1, allProductsbySupplier] = await Promise.all([
+  supplier.findById(req.params.id).exec(),
+  product.find({ supplier1: req.params.id }, "product description").exec(),
+]);
+  if (allProductsbySupplier.length > 0) {
+    // Supplier has products. Render in same way as for GET route.
+    res.render("supplier_delete", {
+      title: "Delete Supplier",
+      supplier: supplier1,
+      productSuppliers: allProductsbySupplier,
+    });
+    return;
+  } else {
+    // Supplier has no products. Delete object and redirect to the list of authors.
+    await supplier.findByIdAndDelete(req.body.supplierid);
+    res.redirect("/inventory/suppliers");
+  }
 });
 
 // Display Category update form on GET.
