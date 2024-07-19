@@ -166,8 +166,11 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
     // No results.
     res.redirect("/inventory");
   }
-
-    // Delete object and redirect to the list of books.
+  res.render("product_delete", {
+    title: "Delete Product",
+    product: product1,
+  });
+    // Delete object and redirect to the list of product.
     await product.findByIdAndDelete(req.body.id);
     res.redirect("/inventory");
   }
@@ -264,7 +267,7 @@ exports.product_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a Book object with escaped/trimmed data and old id.
+    // Create a Product object with escaped/trimmed data and old id.
     const product1 = new product({
       name: req.body.name, 
       category: req.body.category,
