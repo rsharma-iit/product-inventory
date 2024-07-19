@@ -5,7 +5,9 @@ var express = require('express');
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = "mongodb+srv://rsharma17:OrcBRAVKFh3OP9vS@cluster0.yda4vzi.mongodb.net/product-inventory-db?retryWrites=true&w=majority&appName=Cluster0";
+const dev_db_url = "mongodb+srv://appuser:apppwd@cluster0.yda4vzi.mongodb.net/product-inventory-db?retryWrites=true&w=majority&appName=Cluster0";
+
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {

@@ -7,4 +7,3 @@
 /inventory/category/<object>/update
 /inventory/supplier/<object>/delete
 
-
