@@ -251,7 +251,7 @@ exports.product_update_post = [
       });
       return;
     } else {
-      // Data from form is valid. Update the record.
+      // Data from form is valid. Update the record
       const updatedProduct = await product.findByIdAndUpdate(req.params.id, product1, {});
       res.redirect(updatedProduct.url);
     }
