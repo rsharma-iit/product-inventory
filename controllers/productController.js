@@ -129,15 +129,66 @@ exports.product_create_post = [
 ];
 
 
+
+
+
+
+
+
+
+
+
 // Display product delete form on GET.
 exports.product_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: product delete GET");
+  const product1 = await Promise.all(
+    product.findById(req.params.id).populate("category").populate("supplier").exec(),
+  );
+
+  if (product1 === null) {
+    // No results.
+    res.redirect("/inventory");
+  }
+
+  res.render("product_delete", {
+    title: "Delete Product",
+    product: product1,
+  });
 });
 
 // Handle product delete on POST.
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: product delete POST");
-});
+  // Assume the post has valid id (ie no validation/sanitization).
+
+  const product1 = await Promise.all(product.findById(req.params.id).populate("category").populate("supplier").exec(),
+  );
+
+  if (product1 === null) {
+    // No results.
+    res.redirect("/inventory");
+  }
+  res.render("product_delete", {
+    title: "Delete Product",
+    product: product1,
+  });
+    // Delete object and redirect to the list of product.
+    await product.findByIdAndDelete(req.body.id);
+    res.redirect("/inventory");
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Display product update form on GET.
@@ -216,7 +267,7 @@ exports.product_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a Book object with escaped/trimmed data and old id.
+    // Create a Product object with escaped/trimmed data and old id.
     const product1 = new product({
       name: req.body.name, 
       category: req.body.category,
