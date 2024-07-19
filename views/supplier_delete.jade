@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  h1 Delete supplier: #{supplier.name}
+
+  if supplier_products.length
+
+    p #[strong Delete the following product before attempting to delete this supplier.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 products
+
+      dl
+        each product in supplier_products
+          dt
+            a(href=product.url) #{product.name}
+          dd #{product.description}
+
+  else
+    p Do you really want to delete this supplier?
+
+    form(method='POST')
+      div.form-group
+        input#id.form-control(type='hidden', name='id', value=supplier._id )
+
+      button.btn.btn-primary(type='submit') Delete

@@ -124,7 +124,7 @@ exports.supplier_delete_get = asyncHandler(async (req, res, next) => {
   res.render("supplier_delete", {
     title: "Delete Supplier",
     supplier: supplier1,
-    supplier_product: productsfromSupplier,
+    supplier_products: productsfromSupplier,
   });
 });
 
@@ -141,7 +141,7 @@ exports.supplier_delete_post = asyncHandler(async (req, res, next) => {
     res.render("supplier_delete", {
       title: "Delete Supplier",
       supplier: supplier1,
-      supplier_product: productsfromSupplier,
+      supplier_products: productsfromSupplier,
     });
     return;
   } else {
