@@ -6,4 +6,3 @@
 /inventory/product/<object>/create
 /inventory/category/<object>/update
 /inventory/supplier/<object>/delete
-
