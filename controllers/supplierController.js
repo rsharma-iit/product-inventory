@@ -3,13 +3,41 @@ const supplier = require("../models/supplier");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
-// Display list of all supplier.
+
+//supplier list page
 exports.supplier_list = asyncHandler(async (req, res, next) => {
-  const allsuppliers = await supplier.find({},{'_id': 0})
+  const allsuppliers = await supplier.find({}, "name")
     .sort({ name: 1 })
+
     .exec();
-  res.render('suppliers', { title: "Supplier List", supplier_list: allsuppliers });
+
+  res.render("suppliers", { title: "Suppliers List", supplier_list: allsuppliers});
 });
+
+
+
+// Display detail page for a specific supplier.
+exports.supplier_detail = asyncHandler(async (req, res, next) => {
+  // Get details of suppliers
+  const [supplier1] = await Promise.all([
+    supplier.findById(req.params.id).exec(),
+  
+  ]);
+
+  if (supplier1 === null) {
+    // No results.
+    const err = new Error("Supplier not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("supplier_detail", {
+    name: supplier1.name,
+    supplier: supplier1,
+    
+  });
+});
+
 
 
 // Display supplier create form on GET.

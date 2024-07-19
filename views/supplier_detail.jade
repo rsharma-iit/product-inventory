@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 Name: #{supplier.name}
+
+
+  p #[strong Name:] #{supplier.name}
+  p #[strong Phone:] #{supplier.phone}
+  p #[strong Address:] #{supplier.address}
+  
+  hr
+  p
+    a(href=supplier.url+'/delete') Delete Supplier
+  p
+    a(href=supplier.url+'/update') Update Supplier
+    

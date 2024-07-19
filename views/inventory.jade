@@ -5,6 +5,8 @@ block content
   if product_list.length
     ul
       each product in product_list
-        li = !{product}
+        li
+          a(href=product.url)  #{product.name}
+          |   (#{product.category.name})
   else
     p There are no products.

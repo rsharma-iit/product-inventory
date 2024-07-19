@@ -29,10 +29,8 @@ router.get("/product/:id/update", product_controller.product_update_get);
 // POST request to update product.
 router.post("/product/:id/update", product_controller.product_update_post);
 
-
-// GET request for list of all product items.
-//router.get("/products", product_controller.product_list);
-
+// GET request for one Product.
+router.get("/product/:id", product_controller.product_detail);
 
 /// category ROUTES ///
 
@@ -57,7 +55,8 @@ router.get("/category/:id/update", category_controller.category_update_get);
 // POST request to update category.
 router.post("/category/:id/update", category_controller.category_update_post);
 
-
+// GET request for one Category.
+router.get("/category/:id", category_controller.category_detail);
 
 
 
@@ -83,5 +82,8 @@ router.post("/supplier/:id/update", supplier_controller.supplier_update_post);
 
 // GET request for list of all supplier.
 router.get("/suppliers", supplier_controller.supplier_list);
+
+// GET request for one Supplier.
+router.get("/supplier/:id", supplier_controller.supplier_detail);
 
 module.exports = router;

@@ -26,19 +26,15 @@ block content
       label(for='description') Description:
       input#description.form-control(type='text', placeholder='Describe' name='description' value=(undefined===product ? '' : product.description) required)
 
-    div.form-group
-      label(for='supplier') Supplier:
-      select#supplier.form-control(name='supplier' required)
-        option(value='') --Please select a supplier--
+      label Supplier:
+      div
         for supplier in suppliers
-          if product
-            if supplier._id.toString()===product.supplier._id.toString()
-              option(value=supplier._id selected) #{supplier.name}
+          div(style='display: inline; padding-right:10px;')
+            if supplier.checked
+              input.checkbox-input(type='checkbox', name='supplier', id=supplier._id, value=supplier._id, checked)
             else
-              option(value=supplier._id) #{supplier.name}
-          else
-            option(value=supplier._id) #{supplier.name}
-
+              input.checkbox-input(type='checkbox', name='supplier', id=supplier._id, value=supplier._id)
+            label(for=supplier._id) &nbsp;#{supplier.name}
 
     div.form-group
       label(for='price') Price:

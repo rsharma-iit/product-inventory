@@ -1,17 +1,37 @@
 const notifier = require('node-notifier');
 const category = require("../models/category");
+const product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 // Display list of all Category.
 exports.category_list = asyncHandler(async (req, res, next) => {
-  const allcategorys = await category.find({},{'_id': 0})
-    .sort({ name: 1 })
-    .exec();
+  const allcategorys = await category.find().sort({name: 1}).exec();
   res.render('categorys', { title: "Category List", category_list: allcategorys });
 });
 
 
+// Display detail page for a specific Category.
+exports.category_detail = asyncHandler(async (req, res, next) => {
+  // Get details of category and all their products
+  const [category1, allProductsbyCategory] = await Promise.all([
+    category.findById(req.params.id).exec(),
+    product.find({ category: req.params.id }, "name description").exec(),
+  ]);
+
+  if (category1 === null) {
+    // No results.
+    const err = new Error("Category not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("category_detail", {
+    title: "Category Detail",
+    category: category1,
+    category_products: allProductsbyCategory,
+  });
+});
 
 
 // Display supplier create form on GET.
@@ -64,51 +84,18 @@ exports.category_create_post = [
 ];
 
 
-/*
 
-// Display Supplier delete form on GET.
-exports.supplier_delete_get = asyncHandler(async (req, res, next) => {
-  // Get details of supplier and all their products (in parallel)
-  const [supplier1, allProductsbySupplier] = await Promise.all([
-    supplier.findById(req.params.id).exec(),
-    product.find({ supplier1: req.params.id }, "product description").exec(),
-  ]);
 
-  if (supplier1 === null) {
-    // No results.
-    res.redirect("/inventory/suupliers");
-  }
 
-  res.render("supplier_delete", {
-    title: "Delete Supplier",
-    supplier: supplier1,
-    productSupplliers: allProductsbySupplier,
-  });
+// Display Category delete form on GET.
+exports.category_delete_get = asyncHandler(async (req, res, next) => {
+  res.send("NOT IMPLEMENTED: Category delete GET");
 });
 
-// Handle Supplier delete on POST.
-exports.supplier_delete_post = asyncHandler(async (req, res, next) => {
- // Get details of supplier and all their products (in parallel)
- const [supplier1, allProductsbySupplier] = await Promise.all([
-  supplier.findById(req.params.id).exec(),
-  product.find({ supplier1: req.params.id }, "product description").exec(),
-]);
-  if (allProductsbySupplier.length > 0) {
-    // Supplier has products. Render in same way as for GET route.
-    res.render("supplier_delete", {
-      title: "Delete Supplier",
-      supplier: supplier1,
-      productSuppliers: allProductsbySupplier,
-    });
-    return;
-  } else {
-    // Supplier has no products. Delete object and redirect to the list of authors.
-    await supplier.findByIdAndDelete(req.body.supplierid);
-    res.redirect("/inventory/suppliers");
-  }
+// Handle Category delete on POST.
+exports.category_delete_post = asyncHandler(async (req, res, next) => {
+  res.send("NOT IMPLEMENTED: Category delete POST");
 });
-
-*/
 
 // Display Category update form on GET.
 exports.category_update_get = asyncHandler(async (req, res, next) => {

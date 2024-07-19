@@ -6,6 +6,7 @@ const { body, validationResult } = require("express-validator");
 
 const asyncHandler = require("express-async-handler");
 
+//index page with inventory
 exports.index = asyncHandler(async (req, res, next) => {
   // Get details of products, suppliers and categories (in parallel)
   const [
@@ -29,15 +30,6 @@ exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.product_list = asyncHandler(async (req, res, next) => {
-  const allproducts = await product.find({},{'_id': 0})
-    .sort({ name: 1 })
-    .populate('supplier', 'name')
-    .populate('category','name')
-    .exec();
-
-  res.render('inventory', { title: "Product List", product_list: allproducts });
-});
 
 // Handle supplier create on GET.
 exports.product_create_get = asyncHandler(async (req, res, next) => {
@@ -147,11 +139,12 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: product delete POST");
 });
 
-/*// Display product update form on GET.
+
+// Display product update form on GET.
 exports.product_update_get = asyncHandler(async (req, res, next) => {
   // Get product, suppliers and categorys for form.
-  const [product1, allSupplier, allCategorys] = await Promise.all([
-    product.findById(req.params.id).populate("supplier","category").exec(),
+  const [product1, allSuppliers, allCategorys] = await Promise.all([
+    product.findById(req.params.id).populate("category").exec(),
     supplier.find().sort({ name: 1 }).exec(),
     category.find().sort({ name: 1 }).exec(),
   ]);
@@ -163,51 +156,59 @@ exports.product_update_get = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
+  // Mark our selected genres as checked.
+  allSuppliers.forEach((supplier) => {
+    if (product1.supplier.includes(supplier._id)) supplier.checked = "true";
+  });
+
 
   res.render("product_form", {
     title: "Update Product",
-    authors: allSuppliers,
-    genres: allCategorys,
+    suppliers: allSuppliers,
+    categorys: allCategorys,
     product: product1,
   });
 });
 
-// Handle product update on POST.
+// Handle product update on POST
 exports.product_update_post = [
 
+  // Convert the suppliers to an array.
+  (req, res, next) => {
+    if (!Array.isArray(req.body.supplier)) {
+      req.body.supplier =
+        typeof req.body.supplier === "undefined" ? [] : [req.body.supplier];
+    }
+    next();
+  },
+   // Validate and sanitize the name field.
+   body("name", "Product name should be 3-100 characters")
+   .trim(),
+   
+ body("category","Category must not be empty.")
+ .trim()
+ .isLength({ min: 1 })
+ .escape(),
+ body("sku", "SKU should be 3-100 characters")
+   .trim()
+   .isLength({ min: 8},{ max: 12}),
+ body("description")
+   .trim()
+   .isLength({ min: 8},{ max: 12}),
+   body("supplier.*").escape(),
 
-  // Validate and sanitize fields.
-  body("title", "Product name should be 3-100 characters.")
-    .trim()
-    .isLength({ min: 3 })
-    .escape(),
-  body("author", "Category must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-    body("sku", "SKU should be 3-100 characters")
-    .trim()
-    .isLength({ min: 8},{ max: 12}),
-  body("description")
-    .trim()
-    .isLength({ min: 8},{ max: 12}),
-    body("supplier","Supplier must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
-
-  body("price")
-    .trim()
-    .isLength({min: 1})
-    .escape()
-    .isFloat()
-    .withMessage("Price must be numbers"),
-  body("quantity")
-    .trim()
-    .isLength({min: 0})
-    .escape()
-    .isNumeric()
-    ,
+ body("price")
+   .trim()
+   .isLength({min: 1})
+   .escape()
+   .isFloat()
+   .withMessage("Price must be numbers"),
+ body("quantity")
+   .trim()
+   .isLength({min: 0})
+   .escape()
+   .isNumeric()
+   .withMessage("Price must be numbers"),
 
 
   // Process request after validation and sanitization.
@@ -215,13 +216,14 @@ exports.product_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a Product object with escaped/trimmed data and old id.
-    const product1 = new product({ 
+    // Create a Book object with escaped/trimmed data and old id.
+    const product1 = new product({
       name: req.body.name, 
       category: req.body.category,
       sku: req.body.sku,
       description: req.body.description,
-      supplier: req.body.supplier,
+      supplier: typeof req.body.supplier === "undefined" ? [] : req.body.supplier,
+      _id: req.params.id, // This is required, or a new ID will be assigned!
       price: req.body.price, 
       quantity: req.body.quantity
     });
@@ -229,13 +231,18 @@ exports.product_update_post = [
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/error messages.
 
-      // Get all authors and genres for form
+      // Get all suppliers and categorys for form
       const [allSuppliers, allCategorys] = await Promise.all([
         supplier.find().sort({ name: 1 }).exec(),
         category.find().sort({ name: 1 }).exec(),
       ]);
-
-      res.render("product_form", {
+      
+      for (const supplier of allSuppliers) {
+        if (product1.supplier.indexOf(supplier._id) > -1) {
+          supplier.checked = "true";
+        }
+      }
+        res.render("product_form", {
         title: "Update Product",
         suppliers: allSuppliers,
         categorys: allCategorys,
@@ -246,8 +253,41 @@ exports.product_update_post = [
     } else {
       // Data from form is valid. Update the record.
       const updatedProduct = await product.findByIdAndUpdate(req.params.id, product1, {});
-      
+      res.redirect(updatedProduct.url);
     }
   }),
 ];
-*/
+
+
+// Display detail page for a specific product.
+exports.product_detail = asyncHandler(async (req, res, next) => {
+  // Get details of products
+  const [product1] = await Promise.all([
+    product.findById(req.params.id).populate("category").populate("supplier").exec(),
+  
+  ]);
+
+  if (product1 === null) {
+    // No results.
+    const err = new Error("Product not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("product_detail", {
+    name: product1.name,
+    product: product1,
+    
+  });
+});
+
+
+//product list page
+exports.product_list = asyncHandler(async (req, res, next) => {
+  const allproducts = await product.find({}, "name category")
+    .sort({ name: 1 })
+    .populate("category")
+    .exec();
+
+  res.render("inventory", { title: "Product List", product_list: allproducts });
+});

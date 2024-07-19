@@ -12,6 +12,11 @@ const ProductSchema = new Schema({
   quantity: {type: Number,  required: true}
 });
 
+// Virtual for product's URL
+ProductSchema.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/inventory/product/${this._id}`;
+});
 
 // Export model.
 module.exports = mongoose.model("Product", ProductSchema);

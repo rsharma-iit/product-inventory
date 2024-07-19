@@ -5,6 +5,8 @@ block content
   if supplier_list.length
     ul
       each supplier in supplier_list
-        li = !{supplier}
+        li
+          a(href=supplier.url)  #{supplier.name}
+
   else
     p There are no suppliers.
