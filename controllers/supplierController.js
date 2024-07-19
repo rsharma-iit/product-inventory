@@ -109,15 +109,57 @@ exports.supplier_create_post = [
 
 
 
-// Display supplier delete form on GET.
+// Display Suppler delete form on GET.
 exports.supplier_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: supplier delete GET");
+  // Get details of supplier and all associated products (in parallel)
+  const [supplier1, productsfromSupplier] = await Promise.all([
+    supplier.findById(req.params.id).exec(),
+    product.find({ supplier: req.params.id }, "name description").exec(),
+  ]);
+  if (supplier1 === null) {
+    // No results.
+    res.redirect("/inventory/suppliers");
+  }
+
+  res.render("supplier_delete", {
+    title: "Delete Supplier",
+    supplier: supplier1,
+    supplier_product: productsfromSupplier,
+  });
 });
 
-// Handle supplier delete on POST.
+// Handle Supplier delete on POST.
 exports.supplier_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: supplier delete POST");
+  // Get details of supplier and all associated products (in parallel)
+  const [supplier1, productsfromSupplier] = await Promise.all([
+    supplier.findById(req.params.id).exec(),
+    product.find({ supplier: req.params.id }, "name description").exec(),
+  ]);
+
+  if (productsfromSupplier.length > 0) {
+    // Suppliers has suppliers. Render in same way as for GET route.
+    res.render("supplier_delete", {
+      title: "Delete Supplier",
+      supplier: supplier1,
+      supplier_product: productsfromSupplier,
+    });
+    return;
+  } else {
+    // Supplier has no products. Delete object and redirect to the list of suppliers.
+    await supplier.findByIdAndDelete(req.body.id);
+    res.redirect("/inventory/suppliers");
+  }
 });
+
+
+
+
+
+
+
+
+
+
 
 // Display Supplier update form on GET.
 exports.supplier_update_get = asyncHandler(async (req, res, next) => {

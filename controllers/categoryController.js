@@ -89,13 +89,49 @@ exports.category_create_post = [
 
 // Display Category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete GET");
+  // Get details of category and all their products (in parallel)
+  const [category1, allProductsbyCategory] = await Promise.all([
+    category.findById(req.params.id).exec(),
+    product.find({ category: req.params.id }, "name description").exec(),
+  ]);
+
+  if (category1 === null) {
+    // No results.
+    res.redirect("/inventory/categorys");
+  }
+
+  res.render("category_delete", {
+    title: "Delete Category",
+    category: category1,
+    category_products: allProductsbyCategory,
+  });
 });
 
 // Handle Category delete on POST.
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Category delete POST");
+  // Get details of category and all their products (in parallel)
+  const [category1, allProductsbyCategory] = await Promise.all([
+    category.findById(req.params.id).exec(),
+    product.find({ category: req.params.id }, "name description").exec(),
+  ]);
+
+  if (allProductsbyCategory.length > 0) {
+    // Category has products. Render in same way as for GET route.
+    res.render("category_delete", {
+      title: "Delete Category",
+      category: category1,
+      category_products: allProductsbyCategory,
+    });
+    return;
+  } else {
+    // Category has no products. Delete object and redirect to the list of authors.
+    await category.findByIdAndDelete(req.body.id);
+    res.redirect("/inventory/categorys");
+  }
 });
+
+
+
 
 
 
