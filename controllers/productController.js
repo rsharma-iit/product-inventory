@@ -2,6 +2,7 @@ const notifier = require('node-notifier');
 const product = require("../models/product");
 const category = require("../models/category");
 const supplier = require("../models/supplier");
+const flash = require('connect-flash'); 
 const { body, validationResult } = require("express-validator");
 
 const asyncHandler = require("express-async-handler");
@@ -120,6 +121,7 @@ exports.product_create_post = [
 
         await product1.save();
         res.redirect("/inventory/products?message=Product created successfully&status=success");
+        req.flash('success', 'Testing notification');
         // New product saved. 
         console.log("Product created successfully !");
         notifier.notify({
