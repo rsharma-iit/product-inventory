@@ -2,7 +2,7 @@ const notifier = require('node-notifier');
 const product = require("../models/product");
 const category = require("../models/category");
 const supplier = require("../models/supplier");
-const flash = require('connect-flash'); 
+//const flash = require('connect-flash'); 
 const { body, validationResult } = require("express-validator");
 
 const asyncHandler = require("express-async-handler");
@@ -120,8 +120,8 @@ exports.product_create_post = [
     } else {
 
         await product1.save();
-        res.redirect("/inventory/products?message=Product created successfully&status=success");
         res.flash('success', 'Testing notification');
+        res.redirect("/inventory/products");   
         // New product saved. 
         console.log("Product created successfully !");
         notifier.notify({
@@ -171,7 +171,9 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
 
     // Delete object and redirect to the list of product.
     await product.findByIdAndDelete(req.body.id);
+ //   req.flash('success', 'Testing notification');
     res.redirect("/inventory/products");
+
   }
 );
 
