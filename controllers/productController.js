@@ -159,10 +159,12 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
     // No results.
     res.redirect("/inventory/products");
   }
+  
   res.render("product_delete", {
     title: "Delete Product",
     product: product1,
   });
+
     // Delete object and redirect to the list of product.
     await product.findByIdAndDelete(req.body.id);
     res.redirect("/inventory/products");
