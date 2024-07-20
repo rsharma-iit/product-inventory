@@ -6,7 +6,6 @@ var express = require('express');
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const dev_db_url = "mongodb+srv://<user>:<password>@iit-rsharma-inventory-db-cluster.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
-
 const mongoDB = process.env.MONGODBAZURE_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
