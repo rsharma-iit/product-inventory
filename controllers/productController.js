@@ -58,7 +58,7 @@ exports.product_create_post = [
   .trim()
   .isLength({ min: 1 })
   .escape(),
-  body("sku", "SKU should be 3-100 characters")
+  body("sku", "SKU should be 8-12 characters")
     .trim()
     .isLength({ min: 8},{ max: 12}),
   body("description")
@@ -228,7 +228,7 @@ exports.product_update_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("sku", "SKU should be 3-100 characters")
+  body("sku", "SKU should be 8-12 characters")
     .trim()
     .isLength({ min: 8},{ max: 12}),
   body("description")
