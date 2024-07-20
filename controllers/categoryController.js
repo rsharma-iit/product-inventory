@@ -71,9 +71,9 @@ exports.category_create_post = [
       });
       return;
     } else {
-
-        console.log("Category created successfully !");
         await category1.save();
+        console.log("Category created successfully !"); 
+        res.redirect("/inventory/categorys"); 
         // New category saved. 
         notifier.notify({
           title: 'Category Added!',

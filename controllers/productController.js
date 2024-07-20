@@ -120,9 +120,9 @@ exports.product_create_post = [
     } else {
 
         await product1.save();
+        console.log("Product created successfully !");
         res.redirect("/inventory/products");   
         // New product saved. 
-        console.log("Product created successfully !");
         notifier.notify({
           title: 'Product Added!',
           message: 'good stuff!',
