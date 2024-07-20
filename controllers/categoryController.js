@@ -43,9 +43,10 @@ exports.category_create_get = asyncHandler(async (req, res, next) => {
 
 exports.category_create_post = [
   // Validate and sanitize the name field.
-  body("name", "Category name should be 3-100 characters")
+  body("name", "Category name should be 3-100 characters, no numbers allowed")
     .trim()
-    .isLength({ min: 3},{ max: 100}),
+    .isLength({ min: 3},{ max: 100})
+    .isAlphabetic(),
   body("description", "Category description  should be 3-100 characters")
     .trim()
     .isLength({ min: 3},{ max: 100}),
@@ -155,9 +156,10 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
 exports.category_update_post = [
 
   // Validate and sanitize fields.
-  body("name", "Category name should be 3-100 characters")
+  body("name", "Category name should be 3-100 characters, no numbers allowed")
     .trim()
-    .isLength({ min: 3},{ max: 100}),
+    .isLength({ min: 3},{ max: 100})
+    .isAlphabetic(),
   body("description", "Category description  should be 3-100 characters")
     .trim()
     .isLength({ min: 3},{ max: 100}),
