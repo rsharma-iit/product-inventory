@@ -131,14 +131,6 @@ exports.product_create_post = [
 
 
 
-
-
-
-
-
-
-
-
 // Display product delete form on GET.
 exports.product_delete_get = asyncHandler(async (req, res, next) => {
   const product1 = await Promise.all(
@@ -147,7 +139,7 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
 
   if (product1 === null) {
     // No results.
-    res.redirect("/inventory");
+    res.redirect("/inventory/products");
   }
 
   res.render("product_delete", {
@@ -165,7 +157,7 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
 
   if (product1 === null) {
     // No results.
-    res.redirect("/inventory");
+    res.redirect("/inventory/products");
   }
   res.render("product_delete", {
     title: "Delete Product",
@@ -173,11 +165,9 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
   });
     // Delete object and redirect to the list of product.
     await product.findByIdAndDelete(req.body.id);
-    res.redirect("/inventory");
+    res.redirect("/inventory/products");
   }
 );
-
-
 
 
 // Display product update form on GET.
