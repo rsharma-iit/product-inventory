@@ -133,13 +133,6 @@ exports.product_create_post = [
 
 
 // Display product delete form on GET.
-
-/*
-exports.product_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Product delete GET");
-});
-*/
-
 exports.product_delete_get = asyncHandler(async (req, res, next) => {
   const product1 = await product.findById(req.params.id).populate("category").populate("supplier").exec();
 
@@ -155,16 +148,13 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 
-exports.product_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Product delete POST");
-});
-/*
+
 // Handle product delete on POST.
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
   // Assume the post has valid id (ie no validation/sanitization).
 
-  const product1 = await Promise.all(product.findById(req.params.id).populate("category").exec(),
-  );
+  const product1 = await product.findById(req.params.id).populate("category").populate("supplier").exec();
+  
 
   if (product1 === null) {
     // No results.
@@ -181,7 +171,6 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/products");
   }
 );
-*/
 
 // Display product update form on GET.
 exports.product_update_get = asyncHandler(async (req, res, next) => {
