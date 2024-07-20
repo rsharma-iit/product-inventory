@@ -2,7 +2,7 @@ const notifier = require('node-notifier');
 const product = require("../models/product");
 const category = require("../models/category");
 const supplier = require("../models/supplier");
-const flash = require('connect-flash'); 
+
 const { body, validationResult } = require("express-validator");
 
 const asyncHandler = require("express-async-handler");
@@ -120,7 +120,6 @@ exports.product_create_post = [
     } else {
 
         await product1.save();
-        res.flash('success', 'Testing notification');
         res.redirect("/inventory/products");   
         // New product saved. 
         console.log("Product created successfully !");

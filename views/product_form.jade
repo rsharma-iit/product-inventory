@@ -3,16 +3,6 @@ extends layout
 block content
   h1= title
 
-  body
-    if messages.success
-      div.alert.alert-success
-        | #{messages.success}
-
-    if messages.error
-      div.alert.alert-danger
-        | #{messages.error}
-
-
   form(method='POST')
     div.form-group
       label(for='name') Name:
