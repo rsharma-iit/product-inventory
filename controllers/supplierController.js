@@ -85,6 +85,7 @@ exports.supplier_create_post = [
 
         await supplier1.save();
         // New supplier saved. Redirect to genre detail page.
+        console.log("Supplier created successfully !");
         notifier.notify({
           title: 'Supplier Added!',
           message: 'good stuff!',

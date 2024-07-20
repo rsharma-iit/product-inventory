@@ -119,6 +119,7 @@ exports.product_create_post = [
 
         await product1.save();
         // New product saved. 
+        console.log("Product created successfully !");
         notifier.notify({
           title: 'Product Added!',
           message: 'good stuff!',

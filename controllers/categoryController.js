@@ -73,6 +73,7 @@ exports.category_create_post = [
 
         await category1.save();
         // New category saved. 
+        console.log("Category created successfully !");
         notifier.notify({
           title: 'Category Added!',
           message: 'good stuff!',
