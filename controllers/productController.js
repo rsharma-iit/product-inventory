@@ -80,7 +80,7 @@ exports.product_create_post = [
     .isLength({min: 0})
     .escape()
     .isNumeric()
-    .withMessage("Price must be numbers"),
+    .withMessage("Quantity must be numbers"),
 
 
     // Process request after validation and sanitization.
@@ -221,33 +221,37 @@ exports.product_update_post = [
     next();
   },
    // Validate and sanitize the name field.
-   body("name", "Product name should be 3-100 characters")
+  body("name", "Product name should be 3-100 characters")
    .trim(),
    
- body("category","Category must not be empty.")
- .trim()
- .isLength({ min: 1 })
- .escape(),
- body("sku", "SKU should be 3-100 characters")
-   .trim()
-   .isLength({ min: 8},{ max: 12}),
- body("description")
-   .trim()
-   .isLength({ min: 8},{ max: 12}),
-   body("supplier.*").escape(),
+  body("category","Category must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("sku", "SKU should be 3-100 characters")
+    .trim()
+    .isLength({ min: 8},{ max: 12}),
+  body("description")
+    .trim()
+    .isLength({ min: 3},{ max: 100}),
+  body("supplier","Supplier must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
 
- body("price")
-   .trim()
-   .isLength({min: 1})
-   .escape()
-   .isFloat()
-   .withMessage("Price must be numbers"),
- body("quantity")
-   .trim()
-   .isLength({min: 0})
-   .escape()
-   .isNumeric()
-   .withMessage("Price must be numbers"),
+  body("price")
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .isFloat()
+    .withMessage("Price must be numbers"),
+  body("quantity")
+    .trim()
+    .isLength({min: 0})
+    .escape()
+    .isNumeric()
+    .withMessage("Quantity must be numbers"),
+
 
 
   // Process request after validation and sanitization.
