@@ -22,7 +22,7 @@ exports.index = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render("index", {
-    title: "Warehouse Inventory",
+    title: "Product Inventory Tool",
     product_count: numProducts,
     category_count: numCategories,
     supplier_count: numSuppliers,
