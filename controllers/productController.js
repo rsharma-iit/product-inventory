@@ -133,6 +133,13 @@ exports.product_create_post = [
 
 
 // Display product delete form on GET.
+
+
+exports.product_delete_get = asyncHandler(async (req, res, next) => {
+  res.send("NOT IMPLEMENTED: Product delete GET");
+});
+
+/*
 exports.product_delete_get = asyncHandler(async (req, res, next) => {
   const product1 = await Promise.all(product.findById(req.params.id).exec());
 
@@ -146,7 +153,7 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
     product: product1,
   });
 });
-
+*/
 
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
   res.send("NOT IMPLEMENTED: Product delete POST");
