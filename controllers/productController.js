@@ -179,18 +179,6 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // Display product update form on GET.
 exports.product_update_get = asyncHandler(async (req, res, next) => {
   // Get product, suppliers and categorys for form.
@@ -340,5 +328,5 @@ exports.product_list = asyncHandler(async (req, res, next) => {
     .populate("category")
     .exec();
 
-  res.render("inventory", { title: "Product List", product_list: allproducts });
+  res.render("products", { title: "Product List", product_list: allproducts });
 });
