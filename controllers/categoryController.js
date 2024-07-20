@@ -45,7 +45,8 @@ exports.category_create_post = [
   // Validate and sanitize the name field.
   body("name", "Category name should be 3-100 characters, no numbers allowed")
     .trim()
-    .isLength({ min: 3},{ max: 100}),
+    .isLength({ min: 3},{ max: 100})
+    .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
 //    .isAlphabetic(),
   body("description", "Category description should be 3-100 characters")
     .trim()
@@ -152,7 +153,8 @@ exports.category_update_post = [
   // Validate and sanitize fields.
   body("name", "Category name should be 3-100 characters, no numbers allowed")
     .trim()
-    .isLength({ min: 3},{ max: 100}),
+    .isLength({ min: 3},{ max: 100})
+    .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
 //    .isAlphabetic(),
   body("description", "Category description  should be 3-100 characters")
     .trim()

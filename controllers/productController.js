@@ -52,7 +52,8 @@ exports.product_create_post = [
 
   // Validate and sanitize the name field.
   body("name", "Product name should be 3-100 characters")
-    .trim(),
+    .trim()
+    .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
     
   body("category","Category must not be empty.")
   .trim()
@@ -215,8 +216,8 @@ exports.product_update_post = [
   },
    // Validate and sanitize the name field.
   body("name", "Product name should be 3-100 characters")
-   .trim(),
-   
+   .trim()
+   .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
   body("category","Category must not be empty.")
     .trim()
     .isLength({ min: 1 })
