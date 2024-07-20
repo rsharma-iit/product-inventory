@@ -47,7 +47,7 @@ exports.category_create_post = [
     .trim()
     .isLength({ min: 3},{ max: 100}),
 //    .isAlphabetic(),
-  body("description", "Category description  should be 3-100 characters")
+  body("description", "Category description should be 3-100 characters")
     .trim()
     .isLength({ min: 3},{ max: 100}),
   // Process request after validation and sanitization.
@@ -71,9 +71,9 @@ exports.category_create_post = [
       return;
     } else {
 
+        console.log("Category created successfully !");
         await category1.save();
         // New category saved. 
-        console.log("Category created successfully !");
         notifier.notify({
           title: 'Category Added!',
           message: 'good stuff!',
