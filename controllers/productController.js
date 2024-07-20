@@ -2,7 +2,7 @@ const notifier = require('node-notifier');
 const product = require("../models/product");
 const category = require("../models/category");
 const supplier = require("../models/supplier");
-//const flash = require('connect-flash'); 
+const flash = require('connect-flash'); 
 const { body, validationResult } = require("express-validator");
 
 const asyncHandler = require("express-async-handler");
