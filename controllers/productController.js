@@ -147,7 +147,7 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
     product: product1,
   });
 });
-
+/*
 // Handle product delete on POST.
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
   // Assume the post has valid id (ie no validation/sanitization).
@@ -170,7 +170,7 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/products");
   }
 );
-
+*/
 
 // Display product update form on GET.
 exports.product_update_get = asyncHandler(async (req, res, next) => {
