@@ -87,8 +87,6 @@ exports.category_create_post = [
 
 
 
-
-
 // Display Category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
   // Get details of category and all their products (in parallel)
@@ -131,11 +129,6 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/categorys");
   }
 });
-
-
-
-
-
 
 
 

@@ -1,5 +1,6 @@
 const notifier = require('node-notifier');
 const supplier = require("../models/supplier");
+const product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
@@ -99,17 +100,6 @@ exports.supplier_create_post = [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Display Suppler delete form on GET.
 exports.supplier_delete_get = asyncHandler(async (req, res, next) => {
   // Get details of supplier and all associated products (in parallel)
@@ -151,14 +141,6 @@ exports.supplier_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/suppliers");
   }
 });
-
-
-
-
-
-
-
-
 
 
 
