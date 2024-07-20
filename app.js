@@ -5,9 +5,9 @@ var express = require('express');
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const dev_db_url = "mongodb+srv://appuser:apppwd@cluster0.yda4vzi.mongodb.net/product-inventory-db?retryWrites=true&w=majority&appName=Cluster0";
+const dev_db_url = "mongodb+srv://<user>:<password>@iit-rsharma-inventory-db-cluster.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
 
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const mongoDB = process.env.MONGODBAZURE_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {
