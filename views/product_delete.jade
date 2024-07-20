@@ -10,11 +10,6 @@ block content
   p #[strong SKU:] #{product.sku}
   p #[strong Price:] #{product.price}
   p #[strong Quantity:] #{product.quantity}
-  p #[strong Suppliers: ]
-    each val, index in product.supplier
-      a(href=val.url) #{val.name}
-      if index < product.supplier.length - 1
-        |,&nbsp;
 
   hr
 
