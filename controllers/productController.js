@@ -147,6 +147,11 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
     product: product1,
   });
 });
+
+
+exports.product_delete_post = asyncHandler(async (req, res, next) => {
+  res.send("NOT IMPLEMENTED: Product delete POST");
+});
 /*
 // Handle product delete on POST.
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
