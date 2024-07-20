@@ -121,7 +121,7 @@ exports.product_create_post = [
 
         await product1.save();
         res.redirect("/inventory/products?message=Product created successfully&status=success");
-        req.flash('success', 'Testing notification');
+        res.flash('success', 'Testing notification');
         // New product saved. 
         console.log("Product created successfully !");
         notifier.notify({
