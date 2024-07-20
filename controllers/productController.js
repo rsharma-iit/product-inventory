@@ -127,6 +127,7 @@ exports.product_create_post = [
           title: 'Product Added!',
           message: 'good stuff!',
           wait: true
+          
         })}
     }
   ),
