@@ -55,7 +55,7 @@ exports.supplier_create_post = [
     .isLength({ min: 3},{ max: 100}),
   body("phone")
     .trim()
-    .isLength({min: 10},{ max: 10})
+    .isLength({min: 1000000000},{ max: 100000000000})
     .escape()
     .isNumeric()
     .withMessage("Phone Number must be 10 digit numbers"),
@@ -168,7 +168,7 @@ exports.supplier_update_post = [
     .isLength({ min: 3},{ max: 100}),
   body("phone")
     .trim()
-    .isLength({min: 10},{ max: 10})
+    .isLength({min: 1000000000},{ max: 100000000000})
     .escape()
     .isNumeric()
     .withMessage("Phone Number must be 10 digit numbers"),
