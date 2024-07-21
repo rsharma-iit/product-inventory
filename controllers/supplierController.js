@@ -55,10 +55,10 @@ exports.supplier_create_post = [
     .isLength({ min: 3},{ max: 100}),
   body("phone")
     .trim()
-    .isLength({min: 10},{ max: 9999999999})
+    .isLength({min: 10},{ max: 10})
     .escape()
     .isNumeric()
-    .withMessage("Phone Number must be numbers"),
+    .withMessage("Phone Number must be 10 digit numbers"),
   body("address", "Supplier address should be 3-100 characters")
     .trim()
     .isLength({ min: 3},{ max: 100}),
@@ -168,10 +168,10 @@ exports.supplier_update_post = [
     .isLength({ min: 3},{ max: 100}),
   body("phone")
     .trim()
-    .isLength({min: 10},{ max: 9999999999})
+    .isLength({min: 10},{ max: 10})
     .escape()
     .isNumeric()
-    .withMessage("Phone Number must be numbers"),
+    .withMessage("Phone Number must be 10 digit numbers"),
   body("address", "Supplier address should be 3-100 characters")
     .trim()
     .isLength({ min: 3},{ max: 100}),
